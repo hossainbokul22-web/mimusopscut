@@ -171,14 +171,14 @@ fun EnterCaptionsPage(vm: EditorViewModel) {
                                 afterDownload = true
                                 busy = "Downloading the voice" to 0f
                                 runCatching {
-                                    downloadSpeechModel(m.id, m.family, listener(scope, vm, { busy = it }) {
+                                    downloadSpeechModel(m.id, m.family, listener(scope, vm, { busy = it }, onFetched = {
                                         refresh++
                                         if (afterDownload) {
                                             afterDownload = false
                                             busy = null
                                             make()
                                         }
-                                    })
+                                    }))
                                 }.onFailure { busy = null; afterDownload = false; vm.message = it.userMessage }
                             } else {
                                 make()
